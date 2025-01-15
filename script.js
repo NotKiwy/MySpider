@@ -1,45 +1,48 @@
-// Имитация базы данных (в реальном проекте используй бэкенд)
-let users = {};
-
-// Генерация уникального имени
-function generateUsername() {
-    const adjectives = ["Быстрый", "Смелый", "Ловкий", "Хитрый", "Сильный"];
-    const nouns = ["Паук", "Охотник", "Воин", "Следопыт", "Герой"];
-    const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-    return `${randomAdjective} ${randomNoun}`;
-}
-
-// Регистрация пользователя
-function registerUser(userId) {
-    if (!users[userId]) {
-        users[userId] = {
-            username: generateUsername(),
-            stars: 0,
-            names: []
-        };
-    }
-    return users[userId];
-}
-
-// Получение данных пользователя
-function getUserData(userId) {
-    return users[userId];
-}
-
-// Инициализация приложения
+// Загрузка данных профиля
 if (window.Telegram.WebApp) {
     const tg = window.Telegram.WebApp;
     const userId = tg.initDataUnsafe.user?.id;
 
     if (userId) {
-        const user = registerUser(userId);
-        const welcomeMessage = document.getElementById('welcomeMessage');
-        welcomeMessage.textContent = `Добро пожаловать, ${user.username}!`;
+        const user = getUserData(userId);
+        const profileInfo = document.getElementById('profileInfo');
+        profileInfo.innerHTML = `
+            <p>Текущее имя: <strong>${user.username}</strong></p>
+            <p>Telegram Stars: ${user.stars}</p>
+        `;
 
-        // Кнопка перехода в профиль
-        document.getElementById('profileButton').addEventListener('click', () => {
-            window.location.href = 'profile.html';
+        // Кнопка изменения имени
+        document.getElementById('changeNameButton').addEventListener('click', () => {
+            if (user.stars >= 50) {
+                user.stars -= 50;
+                user.username = generateUsername();
+                profileInfo.innerHTML = `
+                    <p>Текущее имя: <strong>${user.username}</strong></p>
+                    <p>Telegram Stars: ${user.stars}</p>
+                `;
+            } else {
+                alert('Недостаточно Stars!');
+            }
+        });
+
+        // Кнопка добавления имени
+        document.getElementById('addNameButton').addEventListener('click', () => {
+            if (user.stars >= 100) {
+                user.stars -= 100;
+                user.names.push(generateUsername());
+                profileInfo.innerHTML = `
+                    <p>Текущее имя: <strong>${user.username}</strong></p>
+                    <p>Дополнительные имена: ${user.names.join(', ')}</p>
+                    <p>Telegram Stars: ${user.stars}</p>
+                `;
+            } else {
+                alert('Недостаточно Stars!');
+            }
+        });
+
+        // Кнопка "Назад"
+        document.getElementById('backButton').addEventListener('click', () => {
+            window.location.href = 'index.html';
         });
     }
 }
