@@ -1,48 +1,97 @@
-// Загрузка данных профиля
+// Имитация базы данных (в реальном проекте используй бэкенд)
+let users = {};
+
+// Генерация случайного имени
+function generateUsername() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const length = Math.floor(Math.random() * 6) + 5; // От 5 до 10 символов
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+// Регистрация пользователя
+function registerUser(userId) {
+    if (!users[userId]) {
+        users[userId] = {
+            username: generateUsername(),
+            stars: 100, // Начальное количество Stars для теста
+            names: []
+        };
+    }
+    return users[userId];
+}
+
+// Получение данных пользователя
+function getUserData(userId) {
+    return users[userId];
+}
+
+// Проверка уникальности имени
+function isUsernameUnique(username) {
+    return Object.values(users).every(user => user.username !== username);
+}
+
+// Инициализация приложения
 if (window.Telegram.WebApp) {
     const tg = window.Telegram.WebApp;
     const userId = tg.initDataUnsafe.user?.id;
 
     if (userId) {
-        const user = getUserData(userId);
-        const profileInfo = document.getElementById('profileInfo');
-        profileInfo.innerHTML = `
-            <p>Текущее имя: <strong>${user.username}</strong></p>
-            <p>Telegram Stars: ${user.stars}</p>
-        `;
+        const user = registerUser(userId);
 
-        // Кнопка изменения имени
-        document.getElementById('changeNameButton').addEventListener('click', () => {
-            if (user.stars >= 50) {
-                user.stars -= 50;
-                user.username = generateUsername();
-                profileInfo.innerHTML = `
-                    <p>Текущее имя: <strong>${user.username}</strong></p>
-                    <p>Telegram Stars: ${user.stars}</p>
-                `;
-            } else {
-                alert('Недостаточно Stars!');
-            }
-        });
+        // Экран приветствия
+        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            welcomeMessage.textContent = `Добро пожаловать, ${user.username}!`;
 
-        // Кнопка добавления имени
-        document.getElementById('addNameButton').addEventListener('click', () => {
-            if (user.stars >= 100) {
-                user.stars -= 100;
-                user.names.push(generateUsername());
-                profileInfo.innerHTML = `
-                    <p>Текущее имя: <strong>${user.username}</strong></p>
-                    <p>Дополнительные имена: ${user.names.join(', ')}</p>
-                    <p>Telegram Stars: ${user.stars}</p>
-                `;
-            } else {
-                alert('Недостаточно Stars!');
-            }
-        });
+            document.getElementById('startButton').addEventListener('click', () => {
+                window.location.href = 'main.html';
+            });
+        }
 
-        // Кнопка "Назад"
-        document.getElementById('backButton').addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+        // Главное меню
+        if (window.location.pathname.endsWith('main.html')) {
+            document.getElementById('profileButton').addEventListener('click', () => {
+                window.location.href = 'profile.html';
+            });
+        }
+
+        // Профиль
+        if (window.location.pathname.endsWith('profile.html')) {
+            const profileInfo = document.getElementById('profileInfo');
+            profileInfo.innerHTML = `
+                <p>Текущее имя: <strong>${user.username}</strong></p>
+                <p>Telegram Stars: ${user.stars}</p>
+            `;
+
+            document.getElementById('changeNameButton').addEventListener('click', () => {
+                const newUsername = document.getElementById('newUsername').value.trim();
+                if (newUsername.length < 4 || newUsername.length > 20) {
+                    alert('Имя должно быть от 4 до 20 символов!');
+                    return;
+                }
+                if (!isUsernameUnique(newUsername)) {
+                    alert('Это имя уже занято!');
+                    return;
+                }
+                if (user.stars >= 50) {
+                    user.stars -= 50;
+                    user.username = newUsername;
+                    profileInfo.innerHTML = `
+                        <p>Текущее имя: <strong>${user.username}</strong></p>
+                        <p>Telegram Stars: ${user.stars}</p>
+                    `;
+                } else {
+                    alert('Недостаточно Stars!');
+                }
+            });
+
+            document.getElementById('backButton').addEventListener('click', () => {
+                window.location.href = 'main.html';
+            });
+        }
     }
 }
