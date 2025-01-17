@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Spider!</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div id="app">
-        <div id="main-container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen">
+            <div class="welcome-content">
+                <h1>My Spider! 🕷️</h1>
+                <div id="registration-form">
+                    <p class="welcome-text">Welcome! 👋</p>
+                    <input type="text" id="username" placeholder="Enter unique name" maxlength="20">
+                    <button id="register-btn">Start Journey 🚀</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="main-screen" class="screen hidden">
             <!-- Header -->
             <div class="header">
                 <div class="balance-display">
@@ -19,54 +32,81 @@
                 </div>
             </div>
 
-            <!-- Main Content -->
-            <div class="content">
+            <!-- Main Content Area -->
+            <div id="content-area">
                 <!-- Earn Section -->
-                <div class="section earn-section">
-                    <div class="timer-display">
-                        <span class="timer-emoji">⏳</span>
+                <div id="earn-section" class="section">
+                    <div class="timer-container">
                         <span class="timer">00:00</span>
+                        <button id="collect-btn" disabled>Collect 💫</button>
                     </div>
-                    <div class="collect-button">
-                        <button id="collect">Collect 💫</button>
-                    </div>
-                    <div class="upgrades">
-                        <div class="upgrade-item">
-                            <span class="upgrade-icon">⚡</span>
-                            <span class="upgrade-info">Speed Level: 1</span>
-                            <button class="upgrade-btn">Upgrade</button>
+                    <div class="upgrades-container">
+                        <div class="upgrade-card">
+                            <div class="upgrade-info">
+                                <span class="emoji">⚡</span>
+                                <span class="level">Level 1</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="speed">Upgrade Speed</button>
                         </div>
-                        <div class="upgrade-item">
-                            <span class="upgrade-icon">💰</span>
-                            <span class="upgrade-info">Amount Level: 1</span>
-                            <button class="upgrade-btn">Upgrade</button>
+                        <div class="upgrade-card">
+                            <div class="upgrade-info">
+                                <span class="emoji">💰</span>
+                                <span class="level">Level 1</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="amount">Upgrade Amount</button>
                         </div>
                     </div>
+                </div>
+
+                <!-- Checks Section -->
+                <div id="checks-section" class="section hidden">
+                    <div class="create-check">
+                        <input type="number" id="check-amount" placeholder="Amount">
+                        <button id="create-check-btn">Create Check 🎁</button>
+                    </div>
+                    <div class="checks-list"></div>
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profile-section" class="section hidden">
+                    <div class="profile-info">
+                        <img id="profile-avatar" class="avatar" src="" alt="Profile">
+                        <h2 id="profile-name"></h2>
+                        <div class="stats"></div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Section -->
+                <div id="leaderboard-section" class="section hidden">
+                    <div class="leaderboard-list"></div>
                 </div>
             </div>
 
             <!-- Navigation -->
-            <div class="bottom-nav">
+            <nav class="bottom-nav">
                 <button class="nav-btn active" data-section="earn">
-                    <span class="nav-icon">💎</span>
-                    <span class="nav-text">Earn</span>
+                    <span class="emoji">💎</span>
+                    <span>Earn</span>
                 </button>
                 <button class="nav-btn" data-section="checks">
-                    <span class="nav-icon">🎁</span>
-                    <span class="nav-text">Checks</span>
+                    <span class="emoji">🎁</span>
+                    <span>Checks</span>
                 </button>
                 <button class="nav-btn" data-section="profile">
-                    <span class="nav-icon">👤</span>
-                    <span class="nav-text">Profile</span>
+                    <span class="emoji">👤</span>
+                    <span>Profile</span>
                 </button>
                 <button class="nav-btn" data-section="leaderboard">
-                    <span class="nav-icon">🏆</span>
-                    <span class="nav-text">Top</span>
+                    <span class="emoji">🏆</span>
+                    <span>Top</span>
                 </button>
-            </div>
+            </nav>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/upgrade-system.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
