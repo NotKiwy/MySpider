@@ -1,0 +1,114 @@
+/* Добавим новые стили к существующим */
+.balance-display {
+    font-size: 24px;
+    padding: 20px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.spdr-emoji {
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+.collect-button button {
+    background: linear-gradient(45deg, #2b2b2b, #3a3a3a);
+    border: none;
+    padding: 15px 40px;
+    border-radius: 12px;
+    font-size: 18px;
+    color: white;
+    margin: 20px 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.collect-button button:active {
+    transform: scale(0.95);
+}
+
+/* Анимация начисления SPDR */
+@keyframes spdrIncrease {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.spdr-animation {
+    animation: spdrIncrease 0.5s ease-out;
+}
+
+/* Нижняя навигация в стиле Blum */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1c1c1c;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #333;
+}
+
+.nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--transparent-white);
+    padding: 5px;
+    transition: all 0.3s;
+}
+
+.nav-btn.active {
+    color: var(--secondary-color);
+}
+
+.nav-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.nav-text {
+    font-size: 12px;
+}
+
+/* Анимации для апгрейдов */
+.upgrade-item {
+    background: #2b2b2b;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.upgrade-icon {
+    font-size: 24px;
+}
+
+.upgrade-btn {
+    background: #3a3a3a;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.upgrade-btn:active {
+    transform: scale(0.95);
+}
