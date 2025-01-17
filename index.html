@@ -9,28 +9,64 @@
 </head>
 <body>
     <div id="app">
-        <div id="welcome-screen" class="hidden">
-            <h1>My Spider! 🕷️</h1>
-            <div id="registration-form" class="hidden">
-                <p>Welcome! 👋</p>
-                <input type="text" id="username" placeholder="Enter unique name">
-                <button id="register-btn">Register</button>
+        <div id="main-container">
+            <!-- Header -->
+            <div class="header">
+                <div class="balance-display">
+                    <span class="spdr-emoji">🕷️</span>
+                    <span class="balance-amount">0</span>
+                    <span class="currency">SPDR</span>
+                </div>
             </div>
-        </div>
 
-        <div id="main-game" class="hidden">
-            <nav>
-                <button data-section="earn">Earn</button>
-                <button data-section="checks">Checks</button>
-                <button data-section="profile">Profile</button>
-                <button data-section="leaderboard">Leaderboard</button>
-            </nav>
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Earn Section -->
+                <div class="section earn-section">
+                    <div class="timer-display">
+                        <span class="timer-emoji">⏳</span>
+                        <span class="timer">00:00</span>
+                    </div>
+                    <div class="collect-button">
+                        <button id="collect">Collect 💫</button>
+                    </div>
+                    <div class="upgrades">
+                        <div class="upgrade-item">
+                            <span class="upgrade-icon">⚡</span>
+                            <span class="upgrade-info">Speed Level: 1</span>
+                            <button class="upgrade-btn">Upgrade</button>
+                        </div>
+                        <div class="upgrade-item">
+                            <span class="upgrade-icon">💰</span>
+                            <span class="upgrade-info">Amount Level: 1</span>
+                            <button class="upgrade-btn">Upgrade</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <div id="sections">
-                <!-- Game sections will be loaded here -->
+            <!-- Navigation -->
+            <div class="bottom-nav">
+                <button class="nav-btn active" data-section="earn">
+                    <span class="nav-icon">💎</span>
+                    <span class="nav-text">Earn</span>
+                </button>
+                <button class="nav-btn" data-section="checks">
+                    <span class="nav-icon">🎁</span>
+                    <span class="nav-text">Checks</span>
+                </button>
+                <button class="nav-btn" data-section="profile">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Profile</span>
+                </button>
+                <button class="nav-btn" data-section="leaderboard">
+                    <span class="nav-icon">🏆</span>
+                    <span class="nav-text">Top</span>
+                </button>
             </div>
         </div>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
